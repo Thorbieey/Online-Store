@@ -16,7 +16,7 @@ def contact(request):
     return render(request, 'core/contact.html')
 
 def signup(request):
-    # check if for has been submitted and if posted values are valid
+    # check if form has been submitted and if posted values are valid
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         
