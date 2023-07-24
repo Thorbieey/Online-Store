@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import NewItemForm, EditItemForm
@@ -9,7 +10,7 @@ def items(request):
     items = Item.objects.filter(is_sold=False)
     
     if query:
-        items = items.filter(name__icontains=query)
+        items = items.filter(Q(name__icontains=query) | Q(description_icontains=query))
 
     return render(request, 'item/items.html', {
         'items': items,
