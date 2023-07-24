@@ -4,6 +4,18 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import NewItemForm, EditItemForm
 from .models import Item
 
+def items(request):
+    query = request.GET.get('query', '')
+    items = Item.objects.filter(is_sold=False)
+    
+    if query:
+        items = items.filter(name__icontains=query)
+
+    return render(request, 'item/items.html', {
+        'items': items,
+        'query': query,
+    })
+
 def detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
     related_items = Item.objects.filter(category=item.category, is_sold=False).exclude(pk=pk)[0:3]
@@ -34,13 +46,12 @@ def new(request):
 
 @login_required   
 def edit(request, pk):
-    item = get_object_or_404(Item, pk=pk)
+    item = get_object_or_404(Item, pk=pk, created_by = request.user)
     
     if request.method == 'POST':
         form = EditItemForm(request.POST, request.FILES, instance=item)
         
         if form.is_valid():
-            form.save()
             form.save()
             
             return redirect('item:detail', pk=item.id)
