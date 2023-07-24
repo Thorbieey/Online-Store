@@ -32,9 +32,11 @@
                 <a href="#">
                     <div class="p-6 bg-white rounded-b-xl">
                         <h2 class="text-2xl">{{category.name}}</h2>
+                        {% if user == item.created_by %}
                         <p class="text-gray-500">{{category.items.count}} items</p>
+                        {% endif %}
                     </div>
-                </a>
+                </a>  
             {% endfor %}
         </div>
     </div>
