@@ -11,7 +11,7 @@ def new_conversation(request, item_pk):
     if item.created_by == request.user:
         return redirect('dashboard:index') #if you are user redirect to dashboard
     
-    conversations = Conversation.objects,filter(item=item).filter(members__in=[request.user.id])
+    conversations = Conversation.objects.filter(item=item).filter(members__in=[request.user.id])
     
     if conversations:
         pass #redirect to conversation if conversation with user already exists
@@ -31,10 +31,10 @@ def new_conversation(request, item_pk):
             conversation_message.save()
     
             return redirect('item:detail', pk=item_pk)
-        else:
-            form = ConversationMessageForm()
+    else:
+        form = ConversationMessageForm()
 
-        return render(request, 'conversation/new.html', {
-            'form': form,
-        }) 
+    return render(request, 'conversation/new.html', {
+        'form': form,
+    }) 
 
