@@ -35,9 +35,11 @@ def detail(request, pk):
 @login_required   
 def new(request):
     if request.method == 'POST':
+        print("hello")
         form = NewItemForm(request.POST, request.FILES)
         
         if form.is_valid():
+            print("hello")
             item = form.save(commit=False)
             item.created_by = request.user
             item.save()
